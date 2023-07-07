@@ -14,11 +14,9 @@ const login = Joi.object().keys({
   password: Joi.string().min(6).max(16),
 });
 
-const refreshToken = {
-  body: Joi.object().keys({
-    refreshToken: Joi.string().required(),
-  }),
-};
+const refreshToken = Joi.object().keys({
+  refreshToken: Joi.string().required(),
+});
 
 module.exports = {
   register,

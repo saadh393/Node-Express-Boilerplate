@@ -13,9 +13,10 @@ const prisma = require("../lib/prisma");
 const saveToken = async (token, userId, expiredAt) => {
   // Check if user already has token then update new
   const response = await ifUserAlreadyhasToken(userId);
-
+  
   try {
     if (response) {
+      console.log("Updaing token")
       return await prisma.tokens.update({
         where: { id : response.id },
         data: {
@@ -24,6 +25,7 @@ const saveToken = async (token, userId, expiredAt) => {
         },
       });
     } else {
+      console.log("Generating New Token")
       return await prisma.tokens.create({
         data: {
           token,
@@ -48,5 +50,6 @@ const ifUserAlreadyhasToken = async (userId) => {
     throw new Error(error);
   }
 };
+
 
 module.exports = { saveToken, ifUserAlreadyhasToken };

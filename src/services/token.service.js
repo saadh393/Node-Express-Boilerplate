@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const { saveToken } = require("../prisma/token.prisma");
+const { saveToken, ifUserAlreadyhasToken } = require("../prisma/token.prisma");
 
 const generateAuthToken = async (user) => {
   var currentTime = new Date().getTime();
@@ -19,4 +19,26 @@ const generateAuthToken = async (user) => {
   };
 };
 
-module.exports = { generateAuthToken };
+
+const verifyToken = async (refreshToken) => {
+  try {
+    const decoded = jwt.verify(refreshToken, process.env.JWT_SECRET);
+    const tokenDoc = await ifUserAlreadyhasToken(decoded.id);
+    
+    if (!tokenDoc) {
+      throw new Error("Token not found");
+    }
+
+    if (tokenDoc.token !== refreshToken) {
+      throw new Error("Token not found");
+    }
+
+    tokenDoc.id = tokenDoc.userId;
+    return tokenDoc;
+    
+  } catch (error) {
+    throw new Error(error);
+  }
+}
+
+module.exports = { generateAuthToken, verifyToken };

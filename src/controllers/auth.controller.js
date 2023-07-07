@@ -18,4 +18,15 @@ const login = async (req, res) => {
   res.json({user, token});
 };
 
-module.exports = { register, login };
+const refreshToken = async (req, res) => {
+  const { refreshToken } = req.body;
+
+  const existingToken = await TokenService.verifyToken(refreshToken);
+  
+  const token = await TokenService.generateAuthToken(existingToken);
+
+  res.json({token});
+  
+};
+
+module.exports = { register, login, refreshToken };
