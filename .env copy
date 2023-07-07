@@ -1,0 +1,4 @@
+DATABASE_URL=""
+JWT_SECRET=""
+TOKEN_EXPIRE = 14 # Must be in Minuets
+REFRESH_EXPIRE = 25 # Must be in Days
