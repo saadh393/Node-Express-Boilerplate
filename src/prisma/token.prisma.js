@@ -52,4 +52,14 @@ const ifUserAlreadyhasToken = async (userId) => {
 };
 
 
-module.exports = { saveToken, ifUserAlreadyhasToken };
+const deleteToken = async (id) => {
+  await prisma.tokens.delete({
+    where: {
+      id
+    },
+  });
+
+}
+
+
+module.exports = { saveToken, ifUserAlreadyhasToken, deleteToken };

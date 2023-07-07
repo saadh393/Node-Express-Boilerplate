@@ -29,4 +29,10 @@ const refreshToken = async (req, res) => {
   
 };
 
-module.exports = { register, login, refreshToken };
+const logout = async (req, res) => {
+  const { refreshToken } = req.body;
+  await TokenService.removeToken(refreshToken);
+  res.json({ message: "Logout successfully" });
+}
+
+module.exports = { register, login, refreshToken, logout };
